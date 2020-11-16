@@ -1,0 +1,56 @@
+GET http://localhost:7781/lists/OOwg0ketAXgYz5Roplx081wU7CZ2
+
+###
+GET http://localhost:7781/notes/OOwg0ketAXgYz5Roplx081wU7CZ2
+
+###
+POST  http://localhost:7781/lists
+Content-Type: application/json
+
+{
+    "listName":"list-1",
+    "todos":[],
+    "check":[],
+    "userId":"rfgashjfdvashjfkvgasdas"
+}
+
+
+###
+POST  http://localhost:7781/notes
+Content-Type: application/json
+
+{
+    "noteName":"test-1",
+    "note":"<p>I'm good boy</p>",
+    "userId":"rfgashjfdvashjfkvgasdas"
+}
+
+###
+PATCH http://localhost:7781/lists/5fa364d2e171e54df0234313
+Content-Type: application/json
+
+{
+    "id":"5fa364d2e171e54df0234313",
+    "listName":"list-1",
+    "todos":["Writera","Walnote","Notera"],
+    "check":[false,false,false]
+}
+
+###
+PATCH http://localhost:7781/notes/5fa7c8a07f1b332bb4fd627d
+Content-Type: application/json
+
+{
+    "noteName":"note-1",
+    "note":"<p>I'll be good boy</p>"
+}
+
+###
+DELETE http://localhost:7781/lists/5fa21abd065d694a786d10be
+
+
+###
+DELETE http://localhost:7781/notes/5fa7ca71a9500f1e78906abd
+
+###
+DELETE http://localhost:7781/user/OOwg0ketAXgYz5Roplx081wU7CZ2

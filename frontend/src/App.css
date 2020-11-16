@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Acme&family=Fira+Sans+Condensed&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#header {
+  font-family: "Acme", sans-serif;
+}
+
+.listName,
+.noteName,
+.icons {
+  cursor: pointer;
+}
+.listName:hover,
+.noteName:hover,
+.icons:hover {
+  opacity: 0.8;
+}
+
+.editIcon:hover,
+.removeIcon:hover {
+  color: black;
+}
+.editIcon {
+  color: #28a745;
+  cursor: pointer;
+  width: 20px;
+}
+.removeIcon {
+  color: #dc3545;
+  cursor: pointer;
+  width: 15px;
+}
