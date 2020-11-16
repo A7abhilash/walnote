@@ -4,9 +4,9 @@
 
 #### Technology used
 
-> Frontend: ReactJS
-> Backend: ExpressJS
-> Database: MongoDB
+> Frontend: ReactJS  
+> Backend: ExpressJS  
+> Database: MongoDB  
 > Auth: Firebase
 
 ####Feautures
