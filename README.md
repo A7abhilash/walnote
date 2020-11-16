@@ -1,4 +1,4 @@
-#Walnote
+# Walnote
 
 > Note Taking and Todo List App. (Notion clone)
 
