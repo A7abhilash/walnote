@@ -13,6 +13,6 @@
 > **Take Notes:** Keep notes organized and add any type of content.  
 > **User Security:** This application ensures User Authentication, Authorization & Data Encryption.
 
-#####Current Status:
+##### Current Status:
 
 > Revamping the authentication using Passport OAuth 2.0 instead of firebase.
