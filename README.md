@@ -4,7 +4,7 @@
 
 #### Technology used
 
-> STACK: MERN
+> STACK: MERN  
 > Auth: Firebase
 
 #### Feautures
