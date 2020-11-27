@@ -1,7 +1,10 @@
 import React from "react";
 import remote from "./remote.svg";
 
-function GuestSection({ handleSignInButton }) {
+//Backend URL
+const B_URL = `http://localhost:7781`;
+
+function GuestSection() {
   return (
     <React.Fragment>
       <header className="bg-light pt-2 pb-1 text-center">
@@ -43,12 +46,13 @@ function GuestSection({ handleSignInButton }) {
                   Data Encryption.
                 </p>
               </div>
-              <button
-                onClick={handleSignInButton}
+              <a
+                role="button"
+                href={`${B_URL}/auth/google`}
                 className="btn btn-outline-primary rounded-0"
               >
                 <i className="fab fa-google"></i> Login with Google
-              </button>
+              </a>
             </div>
           </div>
         </div>

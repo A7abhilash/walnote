@@ -5,12 +5,8 @@ import Profile from "./Profile";
 import SelectOptions from "./SelectOptions";
 import ListApp from "./ToDoList/ListApp";
 
-function AuthSection({
-  handleSignOutButton,
-  handleAccountDelete,
-  LOGGEDINUSER,
-}) {
-  const [selectedOption, setSelectedOption] = useState("profile");
+function AuthSection({ LOGGEDINUSER }) {
+  const [selectedOption, setSelectedOption] = useState("todos");
 
   const setSelection = (id) => {
     setSelectedOption(id);
@@ -23,13 +19,7 @@ function AuthSection({
       case "notes":
         return <NotesApp userId={LOGGEDINUSER.UID} />;
       case "profile":
-        return (
-          <Profile
-            handleSignOutButton={handleSignOutButton}
-            handleAccountDelete={handleAccountDelete}
-            LOGGEDINUSER={LOGGEDINUSER}
-          />
-        );
+        return <Profile LOGGEDINUSER={LOGGEDINUSER} />;
       default:
         return <ListApp userId={LOGGEDINUSER.UID} />;
     }

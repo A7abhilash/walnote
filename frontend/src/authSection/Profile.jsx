@@ -1,6 +1,9 @@
 import React from "react";
 
-function Profile({ handleSignOutButton, handleAccountDelete, LOGGEDINUSER }) {
+//Backend URL
+const B_URL = `http://localhost:7781`;
+
+function Profile({ LOGGEDINUSER }) {
   return (
     <div className="row mx-2">
       <div className="col-md-4 card mx-auto my-2 text-center p-0">
@@ -10,7 +13,7 @@ function Profile({ handleSignOutButton, handleAccountDelete, LOGGEDINUSER }) {
         <div className="card-content p-2 align-items-center">
           <div>
             <img
-              src={LOGGEDINUSER.profileImage}
+              src={LOGGEDINUSER.image}
               width="100"
               alt="UserProfile"
               className="rounded"
@@ -18,23 +21,15 @@ function Profile({ handleSignOutButton, handleAccountDelete, LOGGEDINUSER }) {
           </div>
           <div className="m-auto mt-md-4">
             <h4>{LOGGEDINUSER.displayName}</h4>
-            <h6>Email: {LOGGEDINUSER.email}</h6>
           </div>
-          <button
-            onClick={handleSignOutButton}
+          <a
+            role="button"
+            href={`${B_URL}/auth/logout`}
             className="btn btn-danger btn-block"
           >
             <strong>Logout</strong>
-          </button>
+          </a>
         </div>
-      </div>
-      <div className="col-md-12 text-center my-2">
-        <button
-          onClick={handleAccountDelete}
-          className="btn btn-sm btn-outline-dark"
-        >
-          Delete my account
-        </button>
       </div>
     </div>
   );
