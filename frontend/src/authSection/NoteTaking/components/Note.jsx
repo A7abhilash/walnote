@@ -61,7 +61,11 @@ export class List extends Component {
               this.setState({ noteName: event.target.value })
             }
           />
-          <button className="btn-success btn ml-2" onClick={this.saveNote}>
+          <button
+            className="btn-success btn ml-2"
+            onClick={this.saveNote}
+            disabled={this.props.loading}
+          >
             <strong>Save</strong>
           </button>
         </div>

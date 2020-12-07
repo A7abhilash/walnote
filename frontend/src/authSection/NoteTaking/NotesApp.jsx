@@ -5,9 +5,6 @@ import "./../../App.css";
 import Sidebar from "./components/Sidebar";
 import Note from "./components/Note";
 
-//Backend URL
-const B_URL = `http://localhost:7781`;
-
 export class NotesApp extends Component {
   constructor(props) {
     super(props);
@@ -18,20 +15,25 @@ export class NotesApp extends Component {
       notes: [],
       selectedNoteIndex: null,
       selectedNote: null,
+      loading: true,
     };
   }
 
   componentDidMount = () => {
-    fetch(`${B_URL}/notes/${this.props.userId}`)
+    this.setState({ loading: true });
+    fetch(`/notes/${this.props.userId}`)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
         this.setState({
           notes: data,
+          loading: false,
         });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
+        alert("505 Error");
+        this.setState({ loading: false });
       });
   };
 
@@ -43,13 +45,14 @@ export class NotesApp extends Component {
   };
 
   addNewNote = (val) => {
+    this.setState({ loading: true });
     let note = {
       noteName: val,
-      note: "<h2>Start your notes...</h2>",
+      note: "<h2>Start writing your notes...</h2>",
       userId: this.props.userId,
     };
     // console.log(list);
-    fetch(`${B_URL}/notes`, {
+    fetch(`/notes`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -62,14 +65,20 @@ export class NotesApp extends Component {
         // console.log(data);
         this.setState({
           notes: [...this.state.notes, data],
+          loading: false,
         });
         this.selectNote(data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+        alert("505 Error");
+        this.setState({ loading: false });
+      });
   };
 
   deleteNote = (note) => {
-    fetch(`${B_URL}/notes/${note._id}`, {
+    this.setState({ loading: true });
+    fetch(`/notes/${note._id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -83,6 +92,7 @@ export class NotesApp extends Component {
           notes: this.state.notes.filter(
             (eachNote) => eachNote._id !== data.id
           ),
+          loading: false,
         });
         if (this.state.selectedNoteIndex === data.id) {
           this.setState({
@@ -91,11 +101,17 @@ export class NotesApp extends Component {
           });
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+        alert("505 Error");
+        this.setState({ loading: false });
+      });
   };
 
   saveNote = (note) => {
-    fetch(`${B_URL}/notes/${note.id}`, {
+    this.setState({ loading: true });
+    note["userId"] = this.props.userId;
+    fetch(`/notes/${note.id}`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
@@ -107,34 +123,41 @@ export class NotesApp extends Component {
       .then((data) => {
         // console.log(data);
         if (data.updatedNote._id === note.id) {
-          window.alert("List saved");
           this.setState({
             notes: data.allNotes,
+            loading: false,
           });
+          window.alert("List saved");
           this.selectNote(data.updatedNote);
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+        alert("505 Error");
+        this.setState({ loading: false });
+      });
   };
 
   render() {
     return (
-      <div className="container-fluid mt-2">
+      <div className="container mt-2">
         <div className="row">
-          <div className="col-md-3 mx-auto">
+          <div className="col-md-4 ">
             <Sidebar
               notes={this.state.notes}
               selectedNoteIndex={this.state.selectedNoteIndex}
               addNewNote={this.addNewNote}
               deleteNote={this.deleteNote}
               selectNote={this.selectNote}
+              loading={this.state.loading}
             />
           </div>
-          <div className="col-md-8 mx-auto">
+          <div className="col-md-6 mx-auto">
             {this.state.selectedNote ? (
               <Note
                 selectedNote={this.state.selectedNote}
                 saveNote={this.saveNote}
+                loading={this.state.loading}
               />
             ) : null}
           </div>

@@ -37,15 +37,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//EJS
-app.set("view engine", "ejs");
-
 //Routes
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
 app.use("/lists", require("./routes/lists"));
 app.use("/notes", require("./routes/notes"));
-app.use("/user", require("./routes/user"));
 
 //*****PORT
 const PORT = process.env.PORT || 7781;

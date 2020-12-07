@@ -5,9 +5,6 @@ import "./../../App.css";
 import Sidebar from "./components/Sidebar";
 import List from "./components/List";
 
-//Backend URL
-const B_URL = `http://localhost:7781`;
-
 export class ListApp extends Component {
   constructor(props) {
     super(props);
@@ -18,19 +15,24 @@ export class ListApp extends Component {
       lists: [],
       selectedListIndex: null,
       selectedList: null,
+      loading: true,
     };
   }
   componentDidMount = () => {
-    fetch(`${B_URL}/lists/${this.props.userId}`)
+    this.setState({ loading: true });
+    fetch(`/lists/${this.props.userId}`)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
         this.setState({
           lists: data,
+          loading: false,
         });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error)
+        alert("505 Error");
+        this.setState({ loading: false });
       });
   };
 
@@ -42,6 +44,7 @@ export class ListApp extends Component {
   };
 
   addNewList = (val) => {
+    this.setState({ loading: true });
     let list = {
       listName: val,
       todos: [],
@@ -49,7 +52,7 @@ export class ListApp extends Component {
       userId: this.props.userId,
     };
     // console.log(list);
-    fetch(`${B_URL}/lists`, {
+    fetch(`/lists`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -62,14 +65,20 @@ export class ListApp extends Component {
         // console.log(data);
         this.setState({
           lists: [...this.state.lists, data],
+          loading: false,
         });
         this.selectList(data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+        alert("505 Error");
+        this.setState({ loading: false });
+      });
   };
 
   deleteList = (list) => {
-    fetch(`${B_URL}/lists/${list._id}`, {
+    this.setState({ loading: true });
+    fetch(`/lists/${list._id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -83,6 +92,7 @@ export class ListApp extends Component {
           lists: this.state.lists.filter(
             (eachList) => eachList._id !== data.id
           ),
+          loading: false,
         });
         if (this.state.selectedListIndex === data.id) {
           this.setState({
@@ -91,11 +101,17 @@ export class ListApp extends Component {
           });
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error);
+        alert("505 Error");
+        this.setState({ loading: false });
+      });
   };
 
   saveList = (list) => {
-    fetch(`${B_URL}/lists/${list.id}`, {
+    this.setState({ loading: true });
+    list["userId"] = this.props.userId;
+    fetch(`/lists/${list.id}`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
@@ -110,11 +126,16 @@ export class ListApp extends Component {
           window.alert("List saved");
           this.setState({
             lists: data.allList,
+            loading: false,
           });
           this.selectList(data.updatedList);
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+        alert("505 Error");
+        this.setState({ loading: false });
+      });
   };
   render() {
     return (
@@ -127,6 +148,7 @@ export class ListApp extends Component {
               addNewList={this.addNewList}
               deleteList={this.deleteList}
               selectList={this.selectList}
+              loading={this.state.loading}
             />
           </div>
           <div className="col-md-6 mx-auto">
@@ -134,6 +156,7 @@ export class ListApp extends Component {
               <List
                 selectedList={this.state.selectedList}
                 saveList={this.saveList}
+                loading={this.state.loading}
               />
             ) : null}
           </div>

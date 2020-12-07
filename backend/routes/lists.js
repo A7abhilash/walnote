@@ -1,12 +1,16 @@
 const express = require("express");
 const router = express.Router();
 var CryptoJS = require("crypto-js");
+const { ensureAuth } = require("./../middleware/auth");
 
 const Lists = require("./../models/Lists");
 
 //@route   GET /lists/:id
 //@desc     Get all the LISTS of userId :id
-router.get("/:id", async (req, res) => {
+router.get("/:id", ensureAuth, async (req, res) => {
+  if (req.user.userId !== req.params.id) {
+    return res.redirect(`${process.env.FRONTEND_URL}/`);
+  }
   try {
     const allData = [];
     const allList = await Lists.find({ userId: req.params.id });
@@ -24,7 +28,10 @@ router.get("/:id", async (req, res) => {
 
 //@route    POST /lists
 //@desc     Add new LIST
-router.post("/", async (req, res) => {
+router.post("/", ensureAuth, async (req, res) => {
+  if (req.user.userId !== req.body.userId) {
+    return res.redirect(`${process.env.FRONTEND_URL}/`);
+  }
   let list = {
     listName: req.body.listName,
     todos: req.body.todos,
@@ -47,7 +54,10 @@ router.post("/", async (req, res) => {
 
 //@route    PATCH /lists/:id
 //@desc     Edit LIST
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", ensureAuth, async (req, res) => {
+  if (req.user.userId !== req.body.userId) {
+    return res.redirect(`${process.env.FRONTEND_URL}/`);
+  }
   try {
     const list = await Lists.findByIdAndUpdate(req.params.id);
     const decryptedData = CryptoJS.AES.decrypt(list.data, "Secret key 123");
@@ -83,9 +93,13 @@ router.patch("/:id", async (req, res) => {
 
 //@route     DELETE /lists/:id
 //@desc     Delete a LIST
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", ensureAuth, async (req, res) => {
   try {
-    await Lists.findByIdAndDelete(req.params.id);
+    let list = await Lists.findById(req.params.id);
+    if (req.user.userId !== list.userId) {
+      return res.redirect(`${process.env.FRONTEND_URL}/`);
+    }
+    await list.deleteOne();
     res.status(201).json({ id: req.params.id });
   } catch (error) {
     res.status(400).json({ msg: error.message });

@@ -46,7 +46,11 @@ export class Sidebar extends Component {
               this.setState({ listName: event.target.value })
             }
           />
-          <button className="btn btn-primary m-2" onClick={this.addNewList}>
+          <button
+            className="btn btn-primary m-2"
+            onClick={this.addNewList}
+            disabled={this.props.loading}
+          >
             Add List
           </button>
         </div>

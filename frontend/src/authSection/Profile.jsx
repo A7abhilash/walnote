@@ -13,7 +13,7 @@ function Profile({ LOGGEDINUSER }) {
         <div className="card-content p-2 align-items-center">
           <div>
             <img
-              src={LOGGEDINUSER.image}
+              src={LOGGEDINUSER.profileImage}
               width="100"
               alt="UserProfile"
               className="rounded"

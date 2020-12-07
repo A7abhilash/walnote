@@ -25,11 +25,10 @@ router.get("/dashboard", ensureAuth, (req, res) => {
 });
 
 router.get("/user", async (req, res) => {
-  console.log("Called");
+  // console.log(req.user);
   try {
     if (req.user) {
-      let user = await Users.findOne({ googleId: req.user.googleId });
-      console.log(user);
+      let user = await Users.findOne({ userId: req.user.userId });
       return res.json(user);
     }
     res.json(null);

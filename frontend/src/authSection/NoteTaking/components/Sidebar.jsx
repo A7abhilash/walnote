@@ -46,7 +46,11 @@ export class Sidebar extends Component {
               this.setState({ noteName: event.target.value })
             }
           />
-          <button className="btn btn-primary m-2" onClick={this.addNewNote}>
+          <button
+            className="btn btn-primary m-2"
+            onClick={this.addNewNote}
+            disabled={this.props.loading}
+          >
             Add Note
           </button>
         </div>

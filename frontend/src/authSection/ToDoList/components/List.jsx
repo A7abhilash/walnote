@@ -95,7 +95,11 @@ export class List extends Component {
               this.setState({ listName: event.target.value })
             }
           />
-          <button className="btn-success btn ml-2" onClick={this.saveList}>
+          <button
+            className="btn-success btn ml-2"
+            onClick={this.saveList}
+            disabled={this.props.loading}
+          >
             <strong>Save</strong>
           </button>
         </div>
@@ -107,7 +111,11 @@ export class List extends Component {
             value={this.state.newTodo}
             onChange={(event) => this.setState({ newTodo: event.target.value })}
           />
-          <button className="btn btn-info ml-1" onClick={this.addNewTodo}>
+          <button
+            className="btn btn-info ml-1"
+            onClick={this.addNewTodo}
+            disabled={this.props.loading}
+          >
             Add
           </button>
         </div>
